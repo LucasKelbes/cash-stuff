@@ -1,28 +1,37 @@
 const Chance = require("chance")
+const axios = require("axios")
+const FormData = require("form-data")
+const path = require("path")
+const fs = require("fs").promises
+
 const chance = new Chance()
 
 function randomEmail(){
     return chance.email();
 }
 
-const axios = require("axios")
-const FormData = require("form-data")
-const { File } = require("file-api")
+const upload = async () => {
+  const videoPath = path.join(__dirname, "./pepperoni-video.mp4")
 
-const pepURl = ""
-// const video = new File({
-//     path:".pepperoni.mp4"
-// })
+  const pepperoniUrl = 'https://us-central1-caseys-pepperoni.cloudfunctions.net/pepperoniBackend/upload/version2'
+  const videoFile = await fs.readFile(videoPath);
 
-var formData = new FormData()
-// formData.append("name", "Whollip")
-// formData.append("email", "whollipingyourmom@gmail.com")
-// formData.append("video", )
+  const email = randomEmail()
+  const fileName = email + chance.integer({ min: 0 })
 
-console.log(randomEmail())
+  var formData = new FormData()
+  formData.append("name", "Floopsy Noodle")
+  formData.append("email", email)
+  formData.append("video", videoFile, fileName)
+  const response = await axios.post(pepperoniUrl, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      onUploadProgress: () => {
+        process.stdout.write(".")
+      }
+  })
+  console.log(response)
+}
 
-// axios.post(pepURL, formData, {
-//     headers: {
-//         'Content-type': "multipart/form-data"
-//     }
-// })
+upload().then(console.log, console.error)
