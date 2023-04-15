@@ -31,7 +31,7 @@ const upload = async () => {
         process.stdout.write(".")
       }
   })
-  console.log(response)
+  console.log(response.data.code)
 }
 
 upload().then((code, err) => {
