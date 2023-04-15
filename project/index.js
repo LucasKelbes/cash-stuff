@@ -3,7 +3,6 @@ const axios = require("axios")
 const FormData = require("form-data")
 const path = require("path")
 const fs = require("fs").promises
-const fs2 = require("fs")
 
 const chance = new Chance()
 
@@ -34,13 +33,14 @@ const upload = async () => {
   return response.data.code
 }
 
-fs.writeFile(__dirname + "/codes.txt", "", (err) => {
-    if(err){
-        console.error(err)
-    }
-})
+// This code deletes the contents of the codes file before generating new ones
+// fs.writeFile(__dirname + "/codes.txt", "", (err) => {
+//     if(err){
+//         console.error(err)
+//     }
+// })
 
-for(var i = 0; i < 25; i++){
+for(var i = 0; i < 50; i++){
     upload().then((code, err) => {
         console.log(code)
         if(err){
