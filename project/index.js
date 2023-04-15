@@ -34,4 +34,9 @@ const upload = async () => {
   console.log(response)
 }
 
-upload().then(console.log, console.error)
+upload().then((code, err) => {
+    console.log(code)
+    if(err){
+        console.log(err)
+    }
+})
