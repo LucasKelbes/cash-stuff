@@ -9,6 +9,7 @@ public class App {
 
         String URL = "https://pepperoni.caseys.com/";
 
-        HtmlPage page = client.getPage(URL);
+        // HtmlPage page = client.getPage(URL);
+        client.close();
     }
 }
